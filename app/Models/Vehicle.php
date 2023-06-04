@@ -10,9 +10,9 @@ use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
  * @property string $color
  * @property int $price
  * @property int $stock
- * @property string $machine
- * @property int $created_by
- * @property int $updated_by
+ * @property string $created_at
+ * @property string $updated_at
+ * @property array $sales
  */
 
 class Vehicle extends Eloquent
@@ -26,14 +26,18 @@ class Vehicle extends Eloquent
      *
      * @var array
      */
-    protected $guarded = ['id'];
-    /**
+//    protected $guarded = ['id'];
     protected $fillable = [
         'name',
         'color',
         'price',
         'stock',
-        'machine',
+        'created_at',
+        'updated_at',
     ];
-    */
+
+    public function sales()
+    {
+        return $this->hasMany(Sale::class);
+    }
 }

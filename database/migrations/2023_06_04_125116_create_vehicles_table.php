@@ -17,10 +17,10 @@ class CreateVehiclesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('color');
-            $table->integer('price');
-            $table->integer('stock');
+            $table->integer('price')->default(0);
+            $table->integer('stock')->default(0);
             $table->string('machine')->nullable();
-            $table->string('capacity_passenger')->nullable();
+            $table->integer('capacity_passenger')->nullable();
             $table->string('type')->nullable();
             $table->string('suspension_type')->nullable();
             $table->string('transmission_type')->nullable();

@@ -19,12 +19,17 @@ class VehicleService
         return $this->repository->all();
     }
 
+    public function getTotalStock()
+    {
+        return $this->repository->getTotalStock();
+    }
+
     public function getById($id)
     {
         return $this->repository->find($id);
     }
 
-    public function create($data)
+    public function store($data)
     {
         return $this->repository->create($data);
     }
@@ -38,5 +43,11 @@ class VehicleService
     {
         return $this->repository->delete($id);
     }
+
+    public function addSale($vehicleId, $quantity, $soldDate)
+    {
+        return $this->repository->addSale($vehicleId, $quantity, $soldDate);
+    }
+
 }
 

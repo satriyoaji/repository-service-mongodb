@@ -10,4 +10,9 @@ class CarRepository extends VehicleRepository
     {
         parent::__construct($model);
     }
+
+    public function all()
+    {
+        return $this->model->whereNotNull('capacity_passenger')->whereNotNull('type')->get();
+    }
 }

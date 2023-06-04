@@ -15,36 +15,71 @@ class BikeController extends Controller
         $this->service = $service;
     }
 
-    public function index()
+    public function index(): \Illuminate\Http\JsonResponse
     {
-        $cars = $this->service->getAll();
-        return response()->json($cars);
+        $bikes = $this->service->getAll();
+        return response()->json($bikes);
     }
 
-    public function show($id)
+    public function find($id): \Illuminate\Http\JsonResponse
     {
-        $car = $this->service->getById($id);
-        return response()->json($car);
+        $bike = $this->service->getById($id);
+        return response()->json($bike);
     }
 
-    public function store(Request $request)
+    public function create(Request $request): \Illuminate\Http\JsonResponse
     {
-        $carData = $request->all();
-        $car = $this->service->create($carData);
-        return response()->json($car, 201);
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+            'color' => 'required|string',
+            'price' => 'required|integer',
+            'stock' => 'required|integer',
+            'machine' => 'required|integer',
+            'suspension_type' => 'required|string',
+            'transmission_type' => 'required|string',
+        ]);
+
+        $bike = $this->service->store($validatedData);
+
+        return response()->json($bike, 201);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): \Illuminate\Http\JsonResponse
     {
-        $carData = $request->all();
-        $car = $this->service->update($id, $carData);
-        return response()->json($car);
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+            'color' => 'required|string',
+            'price' => 'required|integer',
+            'stock' => 'required|integer',
+            'machine' => 'required|integer',
+            'suspension_type' => 'required|string',
+            'transmission_type' => 'required|string',
+        ]);
+
+        $bike = $this->service->update($id, $validatedData);
+
+        return response()->json($bike, 200);
     }
 
-    public function destroy($id)
+    public function destroy($id): \Illuminate\Http\JsonResponse
     {
         $this->service->delete($id);
         return response()->json(null, 204);
     }
+
+    public function addSale(Request $request, $id): \Illuminate\Http\JsonResponse
+    {
+        $quantity = $request->input('quantity');
+        $soldDate = $request->input('sold_date');
+
+        $sale = $this->service->addSale($id, $quantity, $soldDate);
+
+        if (!$sale) {
+            return response()->json(['message' => 'Bike not found'], 404);
+        }
+
+        return response()->json($sale, 201);
+    }
+
 }
 

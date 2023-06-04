@@ -10,4 +10,9 @@ class BikeRepository extends VehicleRepository
     {
         parent::__construct($model);
     }
+
+    public function all()
+    {
+        return $this->model->whereNotNull('suspension_type')->whereNotNull('transmission_type')->get();
+    }
 }

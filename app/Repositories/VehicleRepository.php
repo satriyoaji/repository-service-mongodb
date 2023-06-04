@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Vehicle;
+use Carbon\Carbon;
 
 class VehicleRepository implements \IEntityRepository
 {
@@ -25,11 +26,14 @@ class VehicleRepository implements \IEntityRepository
 
     public function store($data)
     {
+        $data['created_at'] = Carbon::now();
+        $data['updated_at'] = Carbon::now();
         return $this->model->create($data);
     }
 
     public function update($id, $data)
     {
+        $data['updated_at'] = Carbon::now();
         return $this->model->where('_id', $id)->update($data);
     }
 
@@ -37,4 +41,28 @@ class VehicleRepository implements \IEntityRepository
     {
         return $this->model->where('_id', $id)->delete();
     }
+
+    public function getTotalStock()
+    {
+        return $this->model->sum('stock');
+    }
+
+    public function addSale($vehicleId, $quantity, $soldDate)
+    {
+        $vehicle = $this->model->find($vehicleId);
+        if (!$vehicle) {
+            return null;
+        }
+
+        $vehicle->stock -= $quantity;
+        $vehicle->save();
+
+        $sale = $vehicle->sales()->create([
+            'quantity' => $quantity,
+            'sold_date' => $soldDate,
+        ]);
+
+        return $sale;
+    }
+
 }

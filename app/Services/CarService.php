@@ -10,5 +10,6 @@ class CarService extends VehicleService
     {
         parent::__construct($repository);
     }
+
 }
 

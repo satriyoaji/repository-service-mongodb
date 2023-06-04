@@ -27,6 +27,10 @@ Route::group(['prefix' => 'cars'], function () {
     Route::post('/', [CarController::class, 'store']);
     Route::put('/{id}', [CarController::class, 'update']);
     Route::delete('/{id}', [CarController::class, 'destroy']);
+
+    Route::get('/stock', [CarController::class, 'getStock']);
+    Route::post('/{id}/sales', [CarController::class, 'addSale']);
+//    Route::get('/sales/recap', [CarController::class, 'getSalesRecap']);
 });
 
 Route::group(['prefix' => 'bikes'], function () {
@@ -35,4 +39,8 @@ Route::group(['prefix' => 'bikes'], function () {
     Route::post('/', [BikeController::class, 'store']);
     Route::put('/{id}', [BikeController::class, 'update']);
     Route::delete('/{id}', [BikeController::class, 'destroy']);
+
+    Route::get('/stock', [BikeController::class, 'getStock']);
+    Route::post('/{id}/sales', [BikeController::class, 'addSale']);
+//    Route::get('/sales/recap', [BikeController::class, 'getSalesRecap']);
 });
