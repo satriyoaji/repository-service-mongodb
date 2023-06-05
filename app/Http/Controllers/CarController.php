@@ -66,7 +66,10 @@ class CarController extends Controller
 
     public function destroy($id): \Illuminate\Http\JsonResponse
     {
-        $this->service->delete($id);
+        $delete = $this->service->delete($id);
+        if ($delete === null)
+            return $this->jsonResponse(null, 404, "Car data not found");
+
         return $this->jsonResponse(null, 204, "successfully delete Car");
     }
 

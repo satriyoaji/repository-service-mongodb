@@ -46,6 +46,10 @@ class VehicleService
 
     public function delete($id)
     {
+        $foundData = $this->repository->find($id);
+        if (!$foundData)
+            return null;
+
         return $this->repository->delete($id);
     }
 

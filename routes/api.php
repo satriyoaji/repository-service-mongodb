@@ -43,5 +43,6 @@ Route::group(['prefix' => 'bikes'], function () {
 
     Route::get('/stock', [BikeController::class, 'getStock']);
     Route::post('/{id}/sales', [BikeController::class, 'addSale']);
+    Route::get('/{id}/sales', [BikeController::class, 'getDetailSales']);
 //    Route::get('/sales/recap', [BikeController::class, 'getSalesRecap']);
 });
