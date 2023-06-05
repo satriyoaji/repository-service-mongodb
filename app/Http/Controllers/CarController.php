@@ -87,5 +87,10 @@ class CarController extends Controller
         return $this->jsonResponse($sale, 201, "successfully create new Car sales");
     }
 
+    public function getDetailSales($id): \Illuminate\Http\JsonResponse
+    {
+        $car = $this->service->getSalesById($id);
+        return $this->jsonResponse($car, 200, "successfully get detail sales of Car");
+    }
 }
 

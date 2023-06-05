@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Models\Vehicle;
 use Carbon\Carbon;
 
-class VehicleRepository
+class VehicleRepository implements IEntityRepository
 {
     protected $model;
 
@@ -26,14 +26,11 @@ class VehicleRepository
 
     public function store($data)
     {
-        $data['created_at'] = Carbon::now();
-        $data['updated_at'] = Carbon::now();
         return $this->model->create($data);
     }
 
     public function update($id, $data)
     {
-        $data['updated_at'] = Carbon::now();
         return $this->model->where('_id', $id)->update($data);
     }
 
@@ -58,6 +55,11 @@ class VehicleRepository
         ]);
 
         return $sale;
+    }
+
+    public function getSales($vehicleId)
+    {
+        return $this->model->where('_id', $vehicleId)->with('sales')->first();
     }
 
 }

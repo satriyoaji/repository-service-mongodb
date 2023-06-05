@@ -59,9 +59,13 @@ class VehicleService
         if ($vehicle->stock < $quantity)
             return "INVALID_QUANTITY";
 
-        $soldDate = Carbon::now();
+        $soldDate = Carbon::now()->toString();
         return $this->repository->addSale($vehicle, $quantity, $soldDate);
     }
 
+    public function getSalesById($id)
+    {
+        return $this->repository->getSales($id);
+    }
 }
 

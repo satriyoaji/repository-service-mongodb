@@ -30,6 +30,7 @@ Route::group(['prefix' => 'cars'], function () {
 
     Route::get('/stock', [CarController::class, 'getStock']);
     Route::post('/{id}/sales', [CarController::class, 'addSale']);
+    Route::get('/{id}/sales', [CarController::class, 'getDetailSales']);
 //    Route::get('/sales/recap', [CarController::class, 'getSalesRecap']);
 });
 

@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Repositories;
+
 interface IEntityRepository
 {
 //    public function list() : LengthAwarePaginator;
