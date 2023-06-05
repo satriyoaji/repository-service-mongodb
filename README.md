@@ -121,7 +121,7 @@ php artisan serve
 - Unit Test using PHPUnit Test
 
 ``` bash
-PHPUNIT
+$ ./vendor/bin/phpunit
 ```
 
 ## License
