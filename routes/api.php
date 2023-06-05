@@ -23,8 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //Route::apiResource('/vehicles',VehicleController::class);
 Route::group(['prefix' => 'cars'], function () {
     Route::get('/', [CarController::class, 'index']);
-    Route::get('/{id}', [CarController::class, 'show']);
-    Route::post('/', [CarController::class, 'store']);
+    Route::get('/{id}', [CarController::class, 'find']);
+    Route::post('/', [CarController::class, 'create']);
     Route::put('/{id}', [CarController::class, 'update']);
     Route::delete('/{id}', [CarController::class, 'destroy']);
 
@@ -35,8 +35,8 @@ Route::group(['prefix' => 'cars'], function () {
 
 Route::group(['prefix' => 'bikes'], function () {
     Route::get('/', [BikeController::class, 'index']);
-    Route::get('/{id}', [BikeController::class, 'show']);
-    Route::post('/', [BikeController::class, 'store']);
+    Route::get('/{id}', [BikeController::class, 'find']);
+    Route::post('/', [BikeController::class, 'create']);
     Route::put('/{id}', [BikeController::class, 'update']);
     Route::delete('/{id}', [BikeController::class, 'destroy']);
 

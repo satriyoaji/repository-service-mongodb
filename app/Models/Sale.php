@@ -3,14 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
 /**
  * @property int $vehicle_id
  * @property int $quantity
  * @property string $sold_date
  */
-class Sale extends Model
+class Sale extends Eloquent
 {
+    protected $connection = 'mongodb';
+    protected $collection = 'sales';
+
     protected $fillable = ['vehicle_id', 'quantity', 'sold_date'];
 
     public function vehicle()

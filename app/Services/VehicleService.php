@@ -4,6 +4,7 @@
 namespace App\Services;
 
 use App\Repositories\VehicleRepository;
+use Carbon\Carbon;
 
 class VehicleService
 {
@@ -31,11 +32,15 @@ class VehicleService
 
     public function store($data)
     {
-        return $this->repository->create($data);
+        return $this->repository->store($data);
     }
 
     public function update($id, $data)
     {
+        $foundData = $this->repository->find($id);
+        if (!$foundData)
+            return null;
+
         return $this->repository->update($id, $data);
     }
 
@@ -44,9 +49,18 @@ class VehicleService
         return $this->repository->delete($id);
     }
 
-    public function addSale($vehicleId, $quantity, $soldDate)
+    public function addSale($vehicleId, $quantity)
     {
-        return $this->repository->addSale($vehicleId, $quantity, $soldDate);
+        $vehicle = $this->repository->find($vehicleId);
+        if (!$vehicle) {
+            return null;
+        }
+
+        if ($vehicle->stock < $quantity)
+            return "INVALID_QUANTITY";
+
+        $soldDate = Carbon::now();
+        return $this->repository->addSale($vehicle, $quantity, $soldDate);
     }
 
 }

@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Services\CarService;
 
@@ -18,67 +19,72 @@ class CarController extends Controller
     public function index(): \Illuminate\Http\JsonResponse
     {
         $cars = $this->service->getAll();
-        return response()->json($cars);
+        return $this->jsonResponse($cars, 200, "successfully get all Cars");
     }
 
     public function find($id): \Illuminate\Http\JsonResponse
     {
         $car = $this->service->getById($id);
-        return response()->json($car);
+        return $this->jsonResponse($car, 200, "successfully get detail Car");
     }
 
     public function create(Request $request): \Illuminate\Http\JsonResponse
     {
-        $validatedData = $request->validate([
+        $validationData = $this->validateGeneral($request->all(), [
             'name' => 'required|string',
             'color' => 'required|string',
             'price' => 'required|integer',
             'stock' => 'required|integer',
-            'machine' => 'required|integer',
+            'machine' => 'required|string',
             'capacity_passenger' => 'required|integer',
             'type' => 'required|string',
         ]);
 
-        $car = $this->service->store($validatedData);
+        $car = $this->service->store($validationData);
 
-        return response()->json($car, 201);
+        return $this->jsonResponse($car, 201, "successfully add new Car");
     }
 
     public function update(Request $request, $id): \Illuminate\Http\JsonResponse
     {
-        $validatedData = $request->validate([
+        $validationData = $this->validateGeneral($request->all(), [
             'name' => 'required|string',
             'color' => 'required|string',
             'price' => 'required|integer',
             'stock' => 'required|integer',
-            'machine' => 'required|integer',
+            'machine' => 'required|string',
             'capacity_passenger' => 'required|integer',
             'type' => 'required|string',
         ]);
 
-        $car = $this->service->update($id, $validatedData);
+        $update = $this->service->update($id, $validationData);
+        if ($update === null)
+            return $this->jsonResponse(null, 404, "Car data not found");
 
-        return response()->json($car, 200);
+        return $this->jsonResponse($validationData, 200, "successfully update Car");
     }
 
     public function destroy($id): \Illuminate\Http\JsonResponse
     {
         $this->service->delete($id);
-        return response()->json(null, 204);
+        return $this->jsonResponse(null, 204, "successfully delete Car");
     }
 
     public function addSale(Request $request, $id): \Illuminate\Http\JsonResponse
     {
-        $quantity = $request->input('quantity');
-        $soldDate = $request->input('sold_date');
+        $validationData = $this->validateGeneral($request->all(), [
+            'quantity' => 'required|integer',
+        ]);
 
-        $sale = $this->service->addSale($id, $quantity, $soldDate);
-
-        if (!$sale) {
+        $sale = $this->service->addSale($id, $request->quantity);
+        if ($sale === null) {
             return response()->json(['message' => 'Car not found'], 404);
         }
+        if ($sale === "INVALID_QUANTITY") {
+            return response()->json(['message' => 'Car stock is out of bond'], 400);
+        }
 
-        return response()->json($sale, 201);
+        return $this->jsonResponse($sale, 201, "successfully create new Car sales");
     }
 
 }

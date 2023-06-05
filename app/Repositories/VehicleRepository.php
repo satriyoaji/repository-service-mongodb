@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Models\Vehicle;
 use Carbon\Carbon;
 
-class VehicleRepository implements \IEntityRepository
+class VehicleRepository
 {
     protected $model;
 
@@ -47,14 +47,9 @@ class VehicleRepository implements \IEntityRepository
         return $this->model->sum('stock');
     }
 
-    public function addSale($vehicleId, $quantity, $soldDate)
+    public function addSale($vehicle, $quantity, $soldDate)
     {
-        $vehicle = $this->model->find($vehicleId);
-        if (!$vehicle) {
-            return null;
-        }
-
-        $vehicle->stock -= $quantity;
+        $vehicle->stock = $vehicle->stock - $quantity;
         $vehicle->save();
 
         $sale = $vehicle->sales()->create([

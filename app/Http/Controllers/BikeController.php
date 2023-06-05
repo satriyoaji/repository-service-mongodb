@@ -34,7 +34,7 @@ class BikeController extends Controller
             'color' => 'required|string',
             'price' => 'required|integer',
             'stock' => 'required|integer',
-            'machine' => 'required|integer',
+            'machine' => 'required|string',
             'suspension_type' => 'required|string',
             'transmission_type' => 'required|string',
         ]);
@@ -51,7 +51,7 @@ class BikeController extends Controller
             'color' => 'required|string',
             'price' => 'required|integer',
             'stock' => 'required|integer',
-            'machine' => 'required|integer',
+            'machine' => 'required|string',
             'suspension_type' => 'required|string',
             'transmission_type' => 'required|string',
         ]);
